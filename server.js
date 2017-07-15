@@ -1,4 +1,5 @@
 const net = require('net');
+const uriContent = require('./uri-content');
 
 const port = 8080;
 
@@ -18,35 +19,39 @@ const server = net.createServer(function(request) {
     let reqFile = firstLineElements[1];
     console.log("reqFile: ", reqFile);
 
+
+    let date = new Date().toUTCString();
+    console.log("date: ", date);
     let body = null;
-    switch (reqFile){
-      case "/":
-          body = "index.html";
-          break;
-      case "/index.html":
-          body = "index.html";
-          break;
-      case "/hydrogen.html":
-          body = "hydrogen.html";
-          break;
-      case "/helium.html":
-          body = "helium.html";
-          break;
-      case "/css/styles.css":
-          body = "styles.css";
-          break;
-      default:
-          body = "404.html";
+    if(reqMethod==="GET"){
+      switch (reqFile){
+        case "/":
+            body = uriContent.getIndex();
+            break;
+        case "/index.html":
+            body = uriContent.getIndex();
+            break;
+        case "/hydrogen.html":
+            body = uriContent.getHydrogen();
+            break;
+        case "/helium.html":
+            body = uriContent.getHelium();
+            break;
+        case "/css/styles.css":
+            body = uriContent.getStyles();
+            break;
+        default:
+            body = uriContent.get404();
+      }
+    }else{
+      body = uriContent.get404();
     }
 
 
-    request.write(`HTTP/1.1 200 OK\nServer: KrisBot2000 Homemade Server\nDate: Wed, 08 Jul 2015 22:31:15 GMT\n\n${body}`);
+    request.write(`HTTP/1.1 200 OK\nServer: KrisBot2000 Homemade Server\nDate: ${date}\n\n${body}`);
 
     request.end();
   });
-
-
-
 });
 
 server.listen(port, function(){
