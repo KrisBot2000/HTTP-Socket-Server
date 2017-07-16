@@ -9,22 +9,24 @@ const server = net.createServer(function(request) {
   request.on('data', function(data) {
 
     let stringData = data.toString();
-    console.log("stringData: ", stringData);
+    //console.log("stringData: ", stringData);
     let arrayData = stringData.split('\n');
-    console.log("arrayData: ", arrayData);
+    //console.log("arrayData: ", arrayData);
     let firstLineElements = arrayData[0].split(" ");
-    console.log("firstLineElements: ", firstLineElements);
+    //console.log("firstLineElements: ", firstLineElements);
     let reqMethod = firstLineElements[0];
-    console.log("reqMethod: ", reqMethod);
+    //console.log("reqMethod: ", reqMethod);
     let reqFile = firstLineElements[1];
     console.log("reqFile: ", reqFile);
 
 
     let date = new Date().toUTCString();
-    console.log("date: ", date);
+    //console.log("date: ", date);
     let body = null;
     if(reqMethod==="GET"){
       switch (reqFile){
+        //case "undefined"
+
         case "/":
             body = uriContent.getIndex();
             break;
